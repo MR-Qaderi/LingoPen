@@ -602,6 +602,20 @@ body{
 @media (min-width:1024px){.result-card.p-5{padding:1.45rem!important}.output-card .version-text{font-size:1.02rem}}
 @media (max-width:640px){.output-card{padding:1.05rem!important}.output-card .version-text{font-size:.95rem}.ecosystem-card{padding:1rem!important}}
 
+
+/* LingoPen v5.2 correction-diff and counting polish */
+.diff-legend{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap;margin:.9rem 0 .65rem}
+.diff-chip{display:inline-flex;align-items:center;gap:.38rem;border:1px solid var(--border);background:color-mix(in oklab,var(--surface) 80%,transparent);border-radius:999px;padding:.28rem .65rem;font-size:.74rem;font-weight:900;color:var(--muted)}
+.diff-swatch{width:.68rem;height:.68rem;border-radius:999px;display:inline-block}
+.diff-swatch.add{background:color-mix(in oklab,var(--success) 72%,transparent);box-shadow:0 0 0 4px color-mix(in oklab,var(--success) 12%,transparent)}
+.diff-swatch.del{background:color-mix(in oklab,var(--danger) 72%,transparent);box-shadow:0 0 0 4px color-mix(in oklab,var(--danger) 12%,transparent)}
+.version-text.diff-view{font-size:1.01rem;line-height:2.18}
+.diff-ins{display:inline;text-decoration:none;background:color-mix(in oklab,var(--success) 20%,transparent);border:1px solid color-mix(in oklab,var(--success) 28%,transparent);border-radius:.45rem;padding:.03rem .25rem;color:color-mix(in oklab,var(--success) 72%,var(--text));font-weight:900}
+.diff-del{display:inline;text-decoration:line-through;text-decoration-thickness:.12em;background:color-mix(in oklab,var(--danger) 13%,transparent);border:1px solid color-mix(in oklab,var(--danger) 22%,transparent);border-radius:.45rem;padding:.03rem .24rem;color:color-mix(in oklab,var(--danger) 76%,var(--text));opacity:.92}
+.version-stat-row{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-top:.78rem}
+.version-stat-row .chip{font-size:.74rem}
+@media(max-width:640px){.version-text.diff-view{font-size:.95rem;line-height:2.08}.diff-chip{font-size:.7rem}}
+
 </style>
 </head>
 <body>
@@ -814,8 +828,8 @@ const FEEDBACK_LANGS = [
   {value:'text', labels:{fa:'زبان متن',en:'Text language',de:'Textsprache',fr:'Langue du texte',es:'Idioma del texto',zh:'文本语言',tr:'Metin dili',it:'Lingua del testo',ru:'Язык текста'}}
 ];
 const uiStrings = {
-  fa:{appTitle:'قلم‌یار | LingoPen',mainTitle:'قلم‌یار | LingoPen',headerSubtitle:'مربی هوشمند نگارش برای اصلاح، بازنویسی و یادگیری بهتر',heroTitle:'با قلم‌یار، دقیق‌تر و طبیعی‌تر بنویس.',bigDesc:'قلم‌یار متن تو را با حفظ لحن واقعی خودت اصلاح می‌کند، نسخه طبیعی‌تر می‌سازد و مثل یک مربی، دلیل بهبودها را توضیح می‌دهد.',hint:'متن را وارد کن، هدف و لحن را مشخص کن، سپس سه خروجی اصلی می‌گیری: اصلاح حداقلی، بازنویسی طبیعی، و در صورت انتخاب سطح هدف، نسخه پیشرفته‌تر.',step1Title:'تنظیمات',step1Desc:'زبان، هدف، لحن',step2Title:'متن',step2Desc:'نوشتار خام',step3Title:'مربی‌گری',step3Desc:'اصلاح و بازخورد',textLangLabel:'زبان متن',goalLabel:'هدف / نوع متن',toneLabel:'لحن مطلوب',targetLevelLabel:'سطح خروجی هدف',feedbackLangLabel:'زبان بازخورد',optional:'اختیاری',inputTitle:'متن خود را وارد کنید',inputStatus:'برای اصلاح، بازنویسی و تحلیل سطح CEFR',placeholder:'مثلاً یک ایمیل، پاراگراف، پیام، essay یا متن تمرینی زبان را اینجا بنویس...',sample:'نمونه',clear:'پاک کردن',chars:'کاراکتر',process:'تحلیل متن',processing:'در حال تحلیل...',inputHelp:'Corrected فقط خطاهای متن را اصلاح می‌کند.|Natural متن را روان‌تر و طبیعی‌تر می‌نویسد.|Target Level فقط وقتی نمایش داده می‌شود که سطح مشخص انتخاب کرده باشی.',outputBadge:'Writing Output',resultsTitle:'داشبورد مربی نوشتن',copyAll:'کپی همه خروجی‌ها',startOver:'شروع دوباره',assessment:'ارزیابی سطح',currentLevel:'سطح تقریبی متن',coachPraise:'بازخورد سریع مربی',diagnosis:'بازخورد مربی‌گری',grammar:'گرامر و ساختار',vocabulary:'واژگان',flow:'جریان و لحن',versions:'نسخه‌های پیشنهادی',corrected:'Corrected — اصلاح حداقلی',correctedCaption:'فقط خطاهای گرامری، املایی و نگارشی؛ با حفظ کلمات خودت.',natural:'Natural — بازنویسی طبیعی',naturalCaption:'طبیعی‌تر و روان‌تر، اما همچنان نزدیک به سطح فعلی تو.',target:'Target Level — نسخه سطح هدف',targetCaption:'نمونه‌ای از نوشتار در سطح انتخابی و متناسب با هدف متن.',vocabEnhancements:'ارتقای واژگان',original:'عبارت فعلی',alternative:'پیشنهاد بهتر',tone:'اثر لحنی',copy:'کپی',copied:'کپی شد',speak:'خواندن',noVocab:'پیشنهاد واژگانی خاصی لازم نبود؛ متن از این نظر مناسب است.',ecosystemTitle:'پروژه دیگر ما: یادگیری لغات',ecosystemDesc:'برای ساخت کارت‌های واژگان، LingoDeck را ببینید.',errorEmpty:'لطفاً ابتدا متن را وارد کنید.',errorAIResponse:'پاسخ قابل خواندن از AI دریافت نشد.',errorInvalidJson:'پاسخ AI در قالب JSON معتبر نبود.',errorNetwork:'ارتباط با سرور برقرار نشد.',errorTimeout:'درخواست بیش از حد طول کشید.',errorUnexpected:'خطای غیرمنتظره رخ داد.',statusLabel:'کد خطا',detailsLabel:'جزئیات',stopTts:'توقف گفتار'},
-  en:{appTitle:'LingoPen | QalamYar',mainTitle:'LingoPen | قلم‌یار',headerSubtitle:'An AI writing coach for correction, rewriting, and text upgrades',heroTitle:'Write clearly, naturally, and with better guidance.',bigDesc:'LingoPen improves your writing while preserving your authentic tone, then explains the changes like a supportive coach.',hint:'Paste your text, choose the goal and tone, then get three outputs: minimal correction, natural rewrite, and a target-level version when selected.',step1Title:'Settings',step1Desc:'Language, goal, tone',step2Title:'Input',step2Desc:'Raw writing',step3Title:'Coaching',step3Desc:'Correction & feedback',textLangLabel:'Text Language',goalLabel:'Goal / Text Type',toneLabel:'Desired Tone',targetLevelLabel:'Target Output Level',feedbackLangLabel:'Feedback Language',optional:'Optional',inputTitle:'Enter your text',inputStatus:'For correction, rewriting, and CEFR-level coaching',placeholder:'Paste an email, paragraph, message, essay, or language-practice text here...',sample:'Sample',clear:'Clear',chars:'characters',process:'Analyze Text',processing:'Analyzing...',inputHelp:'Corrected fixes errors only.|Natural makes the text smoother and more natural.|Target Level appears only when you choose a specific level.',outputBadge:'Writing Output',resultsTitle:'Writing Coach Dashboard',copyAll:'Copy all outputs',startOver:'Start over',assessment:'Assessment',currentLevel:'Estimated CEFR level',coachPraise:'Quick coach feedback',diagnosis:'Coaching Feedback',grammar:'Grammar & syntax',vocabulary:'Vocabulary',flow:'Flow & tone',versions:'Suggested Versions',corrected:'Corrected — minimal fix',correctedCaption:'Grammar, spelling, and punctuation only; your wording stays intact.',natural:'Natural — native-like rewrite',naturalCaption:'More natural and smoother, while staying close to your current level.',target:'Target Level — upgraded version',targetCaption:'A model version at your selected level, aligned with the text goal.',vocabEnhancements:'Vocabulary Enhancements',original:'Original',alternative:'Alternative',tone:'Tone effect',copy:'Copy',copied:'Copied',speak:'Speak',noVocab:'No vocabulary upgrade was necessary; the wording is already suitable.',ecosystemTitle:'Our other project: Vocabulary learning',ecosystemDesc:'Open LingoDeck to create vocabulary learning cards.',errorEmpty:'Please enter some text first.',errorAIResponse:'No readable AI response was received.',errorInvalidJson:'The AI response was not valid JSON.',errorNetwork:'Could not connect to the server.',errorTimeout:'The request took too long.',errorUnexpected:'Unexpected error occurred.',statusLabel:'Error code',detailsLabel:'Details',stopTts:'Stop speech'}
+  fa:{appTitle:'قلم‌یار | LingoPen',mainTitle:'قلم‌یار | LingoPen',headerSubtitle:'مربی هوشمند نگارش برای اصلاح، بازنویسی و یادگیری بهتر',heroTitle:'با قلم‌یار، دقیق‌تر و طبیعی‌تر بنویس.',bigDesc:'قلم‌یار متن تو را با حفظ لحن واقعی خودت اصلاح می‌کند، نسخه طبیعی‌تر می‌سازد و مثل یک مربی، دلیل بهبودها را توضیح می‌دهد.',hint:'متن را وارد کن، هدف و لحن را مشخص کن، سپس سه خروجی اصلی می‌گیری: اصلاح حداقلی، بازنویسی طبیعی، و در صورت انتخاب سطح هدف، نسخه پیشرفته‌تر.',step1Title:'تنظیمات',step1Desc:'زبان، هدف، لحن',step2Title:'متن',step2Desc:'نوشتار خام',step3Title:'مربی‌گری',step3Desc:'اصلاح و بازخورد',textLangLabel:'زبان متن',goalLabel:'هدف / نوع متن',toneLabel:'لحن مطلوب',targetLevelLabel:'سطح خروجی هدف',feedbackLangLabel:'زبان بازخورد',optional:'اختیاری',inputTitle:'متن خود را وارد کنید',inputStatus:'برای اصلاح، بازنویسی و تحلیل سطح CEFR',placeholder:'مثلاً یک ایمیل، پاراگراف، پیام، essay یا متن تمرینی زبان را اینجا بنویس...',sample:'نمونه',clear:'پاک کردن',chars:'کاراکتر',words:'کلمه',changes:'نمایش تغییرات',added:'اضافه شده',removed:'حذف شده',process:'تحلیل متن',processing:'در حال تحلیل...',inputHelp:'Corrected فقط خطاهای متن را اصلاح می‌کند.|Natural متن را روان‌تر و طبیعی‌تر می‌نویسد.|Target Level فقط وقتی نمایش داده می‌شود که سطح مشخص انتخاب کرده باشی.',outputBadge:'Writing Output',resultsTitle:'داشبورد مربی نوشتن',copyAll:'کپی همه خروجی‌ها',startOver:'شروع دوباره',assessment:'ارزیابی سطح',currentLevel:'سطح تقریبی متن',coachPraise:'بازخورد سریع مربی',diagnosis:'بازخورد مربی‌گری',grammar:'گرامر و ساختار',vocabulary:'واژگان',flow:'جریان و لحن',versions:'نسخه‌های پیشنهادی',corrected:'Corrected — اصلاح حداقلی',correctedCaption:'فقط خطاهای گرامری، املایی و نگارشی؛ با حفظ کلمات خودت.',natural:'Natural — بازنویسی طبیعی',naturalCaption:'طبیعی‌تر و روان‌تر، اما همچنان نزدیک به سطح فعلی تو.',target:'Target Level — نسخه سطح هدف',targetCaption:'نمونه‌ای از نوشتار در سطح انتخابی و متناسب با هدف متن.',vocabEnhancements:'ارتقای واژگان',original:'عبارت فعلی',alternative:'پیشنهاد بهتر',tone:'اثر لحنی',copy:'کپی',copied:'کپی شد',speak:'خواندن',noVocab:'پیشنهاد واژگانی خاصی لازم نبود؛ متن از این نظر مناسب است.',ecosystemTitle:'پروژه دیگر ما: یادگیری لغات',ecosystemDesc:'برای ساخت کارت‌های واژگان، LingoDeck را ببینید.',errorEmpty:'لطفاً ابتدا متن را وارد کنید.',errorAIResponse:'پاسخ قابل خواندن از AI دریافت نشد.',errorInvalidJson:'پاسخ AI در قالب JSON معتبر نبود.',errorNetwork:'ارتباط با سرور برقرار نشد.',errorTimeout:'درخواست بیش از حد طول کشید.',errorUnexpected:'خطای غیرمنتظره رخ داد.',statusLabel:'کد خطا',detailsLabel:'جزئیات',stopTts:'توقف گفتار'},
+  en:{appTitle:'LingoPen | QalamYar',mainTitle:'LingoPen | قلم‌یار',headerSubtitle:'An AI writing coach for correction, rewriting, and text upgrades',heroTitle:'Write clearly, naturally, and with better guidance.',bigDesc:'LingoPen improves your writing while preserving your authentic tone, then explains the changes like a supportive coach.',hint:'Paste your text, choose the goal and tone, then get three outputs: minimal correction, natural rewrite, and a target-level version when selected.',step1Title:'Settings',step1Desc:'Language, goal, tone',step2Title:'Input',step2Desc:'Raw writing',step3Title:'Coaching',step3Desc:'Correction & feedback',textLangLabel:'Text Language',goalLabel:'Goal / Text Type',toneLabel:'Desired Tone',targetLevelLabel:'Target Output Level',feedbackLangLabel:'Feedback Language',optional:'Optional',inputTitle:'Enter your text',inputStatus:'For correction, rewriting, and CEFR-level coaching',placeholder:'Paste an email, paragraph, message, essay, or language-practice text here...',sample:'Sample',clear:'Clear',chars:'characters',words:'words',changes:'Changes highlighted',added:'Added',removed:'Removed',process:'Analyze Text',processing:'Analyzing...',inputHelp:'Corrected fixes errors only.|Natural makes the text smoother and more natural.|Target Level appears only when you choose a specific level.',outputBadge:'Writing Output',resultsTitle:'Writing Coach Dashboard',copyAll:'Copy all outputs',startOver:'Start over',assessment:'Assessment',currentLevel:'Estimated CEFR level',coachPraise:'Quick coach feedback',diagnosis:'Coaching Feedback',grammar:'Grammar & syntax',vocabulary:'Vocabulary',flow:'Flow & tone',versions:'Suggested Versions',corrected:'Corrected — minimal fix',correctedCaption:'Grammar, spelling, and punctuation only; your wording stays intact.',natural:'Natural — native-like rewrite',naturalCaption:'More natural and smoother, while staying close to your current level.',target:'Target Level — upgraded version',targetCaption:'A model version at your selected level, aligned with the text goal.',vocabEnhancements:'Vocabulary Enhancements',original:'Original',alternative:'Alternative',tone:'Tone effect',copy:'Copy',copied:'Copied',speak:'Speak',noVocab:'No vocabulary upgrade was necessary; the wording is already suitable.',ecosystemTitle:'Our other project: Vocabulary learning',ecosystemDesc:'Open LingoDeck to create vocabulary learning cards.',errorEmpty:'Please enter some text first.',errorAIResponse:'No readable AI response was received.',errorInvalidJson:'The AI response was not valid JSON.',errorNetwork:'Could not connect to the server.',errorTimeout:'The request took too long.',errorUnexpected:'Unexpected error occurred.',statusLabel:'Error code',detailsLabel:'Details',stopTts:'Stop speech'}
 };
 function cloneStrings(base, patch){return {...uiStrings[base], ...patch};}
 uiStrings.de=cloneStrings('en',{appTitle:'LingoPen | LingoDeck Ecosystem',headerSubtitle:'KI-Schreibcoach für Korrektur und bessere Texte',heroTitle:'Korrigiere deinen Text, klinge natürlicher und lerne besser.',bigDesc:'LingoPen verbessert deinen Text, bewahrt deine eigene Stimme und erklärt die Änderungen wie ein Coach.',hint:'Füge deinen Text ein, wähle Ziel und Ton, und erhalte Korrektur, natürliche Version und optional eine Zielniveau-Version.',textLangLabel:'Textsprache',goalLabel:'Ziel / Textart',toneLabel:'Gewünschter Ton',targetLevelLabel:'Zielniveau',optional:'Optional',inputTitle:'Text eingeben',inputStatus:'Für Korrektur, Umschreiben und CEFR-Feedback',sample:'Beispiel',clear:'Löschen',process:'Text analysieren',processing:'Analyse läuft...',chars:'Zeichen',resultsTitle:'Schreibcoach-Dashboard',copyAll:'Alle Ausgaben kopieren',startOver:'Neu starten',assessment:'Einschätzung',currentLevel:'Geschätztes CEFR-Niveau',coachPraise:'Kurzes Coach-Feedback',diagnosis:'Coach-Feedback',grammar:'Grammatik & Syntax',vocabulary:'Wortwahl',flow:'Fluss & Ton',versions:'Vorschläge',vocabEnhancements:'Wortschatz-Verbesserungen',copy:'Kopieren',copied:'Kopiert',speak:'Vorlesen',ecosystemTitle:'Unser anderes Projekt: Vokabeln lernen',ecosystemDesc:'Öffne LingoDeck, um Vokabelkarten zu erstellen.'});
@@ -850,6 +864,7 @@ const clearBtn = $('clear-btn');
 const toTopBtn = $('to-top');
 let currentLang = UI_LANGS.some(l=>l.code===localStorage.getItem('lingopen-ui-lang')) ? localStorage.getItem('lingopen-ui-lang') : 'fa';
 let currentResult = null;
+let lastSubmittedText = '';
 function escapeHTML(s=''){return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function escapeAttr(s=''){return escapeHTML(s).replace(/`/g,'&#96;');}
 function uiLangInfo(){return UI_LANGS.find(x=>x.code===currentLang)||UI_LANGS[0];}
@@ -883,7 +898,16 @@ function setLanguage(lang){
 function initTheme(){const saved = localStorage.getItem('lingopen-theme') || 'dark'; root.setAttribute('data-theme', saved); syncThemeTitle();}
 function syncThemeTitle(){const dark=root.getAttribute('data-theme')==='dark'; themeToggle.title=dark?'Switch to light mode':'Switch to dark mode'; themeToggle.setAttribute('aria-label', themeToggle.title);}
 function toggleTheme(){const next=root.getAttribute('data-theme')==='dark'?'light':'dark'; root.setAttribute('data-theme',next); localStorage.setItem('lingopen-theme',next); syncThemeTitle();}
-function updateCharCount(){const locale=currentLang==='fa'?'fa-IR':'en-US'; charCount.textContent = `${textInput.value.length.toLocaleString(locale)} ${currentStrings().chars}`;}
+function textStats(text){
+  const raw=String(text||'');
+  const words=(raw.trim().match(/[\p{L}\p{N}]+(?:[-’'][\p{L}\p{N}]+)*/gu)||[]).length;
+  return {chars:raw.length, words};
+}
+function formatStats(text){
+  const s=currentStrings(); const locale=currentLang==='fa'?'fa-IR':'en-US'; const stats=textStats(text);
+  return `${stats.chars.toLocaleString(locale)} ${s.chars} · ${stats.words.toLocaleString(locale)} ${s.words||'words'}`;
+}
+function updateCharCount(){charCount.textContent = formatStats(textInput.value);}
 function syncTextDirection(){
   const hasText = textInput.value.trim().length > 0;
   const dir = hasText ? selectedTextDirection() : uiLangInfo().dir;
@@ -1041,10 +1065,41 @@ function listItems(value){
   return sentences.length>1 ? sentences : [text];
 }
 function feedbackTile(title,text,icon,accent){const dir=selectedFeedbackDirection();return `<div class="feedback-tile-v2" style="--tile-accent:${accent}"><div class="feedback-head"><span class="feedback-icon">${icon}</span><div><div class="feedback-title">${escapeHTML(title)}</div><div class="micro">${escapeHTML(selectedFeedbackLanguageName())}</div></div></div><ul class="feedback-list" dir="${dir}">${listItems(text).map(item=>`<li>${escapeHTML(item)}</li>`).join('')}</ul></div>`;}
-function versionCard(title, caption, text, key, cardClass, canSpeak=true){
+function tokenizeForDiff(text){return String(text||'').match(/\s+|[^\s]+/g)||[];}
+function buildDiffHTML(original, corrected){
+  const a=tokenizeForDiff(original), b=tokenizeForDiff(corrected);
+  if(!String(original||'').trim() || !String(corrected||'').trim()) return escapeHTML(corrected||'');
+  if(a.length>900 || b.length>900) return escapeHTML(corrected||'');
+  const dp=Array.from({length:a.length+1},()=>Array(b.length+1).fill(0));
+  for(let i=a.length-1;i>=0;i--){
+    for(let j=b.length-1;j>=0;j--){
+      dp[i][j]=a[i]===b[j] ? dp[i+1][j+1]+1 : Math.max(dp[i+1][j],dp[i][j+1]);
+    }
+  }
+  let i=0,j=0,out='';
+  while(i<a.length || j<b.length){
+    if(i<a.length && j<b.length && a[i]===b[j]){out+=escapeHTML(a[i]); i++; j++; continue;}
+    if(j<b.length && (i>=a.length || dp[i][j+1] >= dp[i+1][j])){
+      out += /^\s+$/.test(b[j]) ? escapeHTML(b[j]) : `<ins class="diff-ins">${escapeHTML(b[j])}</ins>`;
+      j++; continue;
+    }
+    if(i<a.length){
+      out += /^\s+$/.test(a[i]) ? escapeHTML(a[i]) : `<del class="diff-del">${escapeHTML(a[i])}</del>`;
+      i++;
+    }
+  }
+  return out;
+}
+function diffLegend(){const s=currentStrings();return `<div class="diff-legend"><span class="diff-chip"><span class="diff-swatch del"></span>${escapeHTML(s.removed||'Removed')}</span><span class="diff-chip"><span class="diff-swatch add"></span>${escapeHTML(s.added||'Added')}</span></div>`;}
+function versionCard(title, caption, text, key, cardClass, canSpeak=true, options={}){
   if(!text) return '';
   const textLang=selectedTextLanguage(); const lang=textLang.tts; const dir=selectedTextDirection(); const s=currentStrings();
-  return `<article class="output-card ${escapeAttr(cardClass)}"><div class="flex items-start justify-between gap-3 flex-wrap"><div><h4 class="font-black text-lg">${escapeHTML(title)}</h4><div class="version-caption">${escapeHTML(caption)}</div></div><span class="chip"><span class="dot"></span>${escapeHTML(key)}</span></div><div class="version-text mt-4" dir="${dir}" lang="${escapeAttr(textLang.code)}">${escapeHTML(text)}</div><div class="version-actions"><button class="btn btn-secondary tiny-btn" data-copy="${escapeAttr(text)}" type="button">📋 ${escapeHTML(s.copy)}</button>${canSpeak?`<button class="btn btn-secondary tiny-btn" data-speak="${escapeAttr(text)}" data-tts="${escapeAttr(lang)}" type="button">🔊 ${escapeHTML(s.speak)}</button>`:''}</div></article>`;
+  const isDiff=Boolean(options.diff);
+  const displayHtml=isDiff ? buildDiffHTML(lastSubmittedText,text) : escapeHTML(text);
+  const textClass=isDiff ? 'version-text diff-view mt-4' : 'version-text mt-4';
+  const statsHtml=`<div class="version-stat-row"><span class="chip">🔢 ${escapeHTML(formatStats(text))}</span></div>`;
+  const legendHtml=isDiff ? diffLegend() : '';
+  return `<article class="output-card ${escapeAttr(cardClass)}"><div class="flex items-start justify-between gap-3 flex-wrap"><div><h4 class="font-black text-lg">${escapeHTML(title)}</h4><div class="version-caption">${escapeHTML(caption)}</div></div><span class="chip"><span class="dot"></span>${escapeHTML(key)}</span></div>${statsHtml}${legendHtml}<div class="${textClass}" dir="${dir}" lang="${escapeAttr(textLang.code)}">${displayHtml}</div><div class="version-actions"><button class="btn btn-secondary tiny-btn" data-copy="${escapeAttr(text)}" type="button">📋 ${escapeHTML(s.copy)}</button>${canSpeak?`<button class="btn btn-secondary tiny-btn" data-speak="${escapeAttr(text)}" data-tts="${escapeAttr(lang)}" type="button">🔊 ${escapeHTML(s.speak)}</button>`:''}</div></article>`;
 }
 function renderResults(data){
   const s=currentStrings(); const v=data.versions||{}; const a=data.assessment||{}; const d=data.diagnosis||{}; const enh=Array.isArray(data.vocabulary_enhancements)?data.vocabulary_enhancements:[];
@@ -1070,16 +1125,16 @@ function renderResults(data){
     </section>
     <section class="result-card p-5">
       <div class="section-heading-row"><div><div class="section-kicker">Rewrite Studio</div><h3 class="text-xl font-black">${escapeHTML(s.versions)}</h3></div></div>
-      <div class="output-grid">${versionCard(s.corrected,s.correctedCaption,v.corrected,'Corrected','corrected-card',false)}${versionCard(s.natural,s.naturalCaption,v.natural,'Natural','natural-card',true)}${targetHtml}</div>
+      <div class="output-grid">${versionCard(s.corrected,s.correctedCaption,v.corrected,'Corrected','corrected-card',false,{diff:true})}${versionCard(s.natural,s.naturalCaption,v.natural,'Natural','natural-card',true)}${targetHtml}</div>
     </section>${vocabHtml}`;
   resultsView.classList.remove('hidden'); setTimeout(()=>resultsView.scrollIntoView({behavior:'smooth',block:'start'}),80);
 }
-async function handleProcess(){const text=textInput.value.trim(); hideError(); if(!text){showError(currentStrings().errorEmpty); return;} resultsView.classList.remove('hidden'); resultsList.innerHTML=''; loader.classList.remove('hidden'); setBusy(true); await callAI(text);}
+async function handleProcess(){const text=textInput.value.trim(); hideError(); if(!text){showError(currentStrings().errorEmpty); return;} lastSubmittedText=text; resultsView.classList.remove('hidden'); resultsList.innerHTML=''; loader.classList.remove('hidden'); setBusy(true); await callAI(text);}
 function fallbackCopyText(text){const ta=document.createElement('textarea'); ta.value=text; ta.setAttribute('readonly',''); ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();}
 async function copyText(text, btn){ if(!text) return; if(navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(text); else fallbackCopyText(text); if(btn){const old=btn.innerHTML; btn.innerHTML='✅ '+currentStrings().copied; setTimeout(()=>btn.innerHTML=old,1300);} }
 function speakText(text, langCode){ if(!text) return; speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); u.lang=langCode; speechSynthesis.speak(u);}
 function copyAll(){ if(!currentResult) return; const v=currentResult.versions||{}; const txt=[v.corrected&&`Corrected:\n${v.corrected}`,v.natural&&`Natural:\n${v.natural}`,v.target_level&&`Target Level:\n${v.target_level}`].filter(Boolean).join('\n\n---\n\n'); copyText(txt,copyAllBtn);}
-function resetApp(){textInput.value=''; updateCharCount(); syncTextDirection(); hideError(); resultsView.classList.add('hidden'); resultsList.innerHTML=''; currentResult=null; speechSynthesis.cancel(); window.scrollTo({top:0,behavior:'smooth'});}
+function resetApp(){textInput.value=''; updateCharCount(); syncTextDirection(); hideError(); resultsView.classList.add('hidden'); resultsList.innerHTML=''; currentResult=null; lastSubmittedText=''; speechSynthesis.cancel(); window.scrollTo({top:0,behavior:'smooth'});}
 function insertSample(){const sample='I am writing to ask about the meeting that we have tomorrow. I want to know if it is possible to change the time because I have another work at morning.'; textInput.value=sample; textLanguage.value='en'; goalType.value='Business Email'; desiredTone.value='Formal'; targetLevel.value='C1'; updateCharCount(); syncTextDirection(); hideError();}
 uiLangSwitcher.addEventListener('change', e=>setLanguage(e.target.value));
 themeToggle.addEventListener('click', toggleTheme);
