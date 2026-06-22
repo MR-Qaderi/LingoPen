@@ -865,6 +865,8 @@ const toTopBtn = $('to-top');
 let currentLang = UI_LANGS.some(l=>l.code===localStorage.getItem('lingopen-ui-lang')) ? localStorage.getItem('lingopen-ui-lang') : 'fa';
 let currentResult = null;
 let lastSubmittedText = '';
+let outputTextStore = {};
+let outputTextCounter = 0;
 function escapeHTML(s=''){return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function escapeAttr(s=''){return escapeHTML(s).replace(/`/g,'&#96;');}
 function uiLangInfo(){return UI_LANGS.find(x=>x.code===currentLang)||UI_LANGS[0];}
@@ -1065,43 +1067,160 @@ function listItems(value){
   return sentences.length>1 ? sentences : [text];
 }
 function feedbackTile(title,text,icon,accent){const dir=selectedFeedbackDirection();return `<div class="feedback-tile-v2" style="--tile-accent:${accent}"><div class="feedback-head"><span class="feedback-icon">${icon}</span><div><div class="feedback-title">${escapeHTML(title)}</div><div class="micro">${escapeHTML(selectedFeedbackLanguageName())}</div></div></div><ul class="feedback-list" dir="${dir}">${listItems(text).map(item=>`<li>${escapeHTML(item)}</li>`).join('')}</ul></div>`;}
-function tokenizeForDiff(text){return String(text||'').match(/\s+|[^\s]+/g)||[];}
-function buildDiffHTML(original, corrected){
-  const a=tokenizeForDiff(original), b=tokenizeForDiff(corrected);
-  if(!String(original||'').trim() || !String(corrected||'').trim()) return escapeHTML(corrected||'');
-  if(a.length>900 || b.length>900) return escapeHTML(corrected||'');
-  const dp=Array.from({length:a.length+1},()=>Array(b.length+1).fill(0));
-  for(let i=a.length-1;i>=0;i--){
-    for(let j=b.length-1;j>=0;j--){
-      dp[i][j]=a[i]===b[j] ? dp[i+1][j+1]+1 : Math.max(dp[i+1][j],dp[i][j+1]);
-    }
-  }
-  let i=0,j=0,out='';
-  while(i<a.length || j<b.length){
-    if(i<a.length && j<b.length && a[i]===b[j]){out+=escapeHTML(a[i]); i++; j++; continue;}
-    if(j<b.length && (i>=a.length || dp[i][j+1] >= dp[i+1][j])){
-      out += /^\s+$/.test(b[j]) ? escapeHTML(b[j]) : `<ins class="diff-ins">${escapeHTML(b[j])}</ins>`;
-      j++; continue;
-    }
-    if(i<a.length){
-      out += /^\s+$/.test(a[i]) ? escapeHTML(a[i]) : `<del class="diff-del">${escapeHTML(a[i])}</del>`;
-      i++;
-    }
+function tokenizeForDiff(text){
+  // Preserve spaces/new lines for display, but compare them safely.
+  return String(text||'').match(/\r\n|\n|\r|[ \t]+|[\p{L}\p{N}]+(?:[’'\-][\p{L}\p{N}]+)*|[^\s]/gu)||[];
+}
+function isSpaceToken(token){return /^\s+$/.test(String(token||''));}
+function sameDiffToken(a,b){
+  if(isSpaceToken(a) && isSpaceToken(b)) return true;
+  return a===b;
+}
+function diffTokenHTML(token, type){
+  if(isSpaceToken(token)) return escapeHTML(token||'');
+  return type==='ins' ? `<ins class="diff-ins">${escapeHTML(token)}</ins>` : `<del class="diff-del">${escapeHTML(token)}</del>`;
+}
+function appendDiffRun(tokens, type){
+  let out='';
+  for(const t of tokens) out += diffTokenHTML(t,type);
+  return out;
+}
+function renderDiffOps(ops){
+  let out='';
+  for(const op of ops){
+    if(op.type==='eq') out += escapeHTML(op.token||'');
+    else out += diffTokenHTML(op.token, op.type);
   }
   return out;
+}
+function vGet(v,k){return v.has(k) ? v.get(k) : -1000000000;}
+function backtrackMyers(trace,a,b){
+  let x=a.length, y=b.length;
+  const ops=[];
+  for(let d=trace.length-1; d>=0; d--){
+    if(d===0){
+      while(x>0 && y>0){ ops.push({type:'eq', token:b[y-1]}); x--; y--; }
+      while(x>0){ ops.push({type:'del', token:a[x-1]}); x--; }
+      while(y>0){ ops.push({type:'ins', token:b[y-1]}); y--; }
+      break;
+    }
+    const prev=trace[d-1];
+    const k=x-y;
+    const cameFromDown = (k===-d) || (k!==d && vGet(prev,k-1) < vGet(prev,k+1));
+    const prevK = cameFromDown ? k+1 : k-1;
+    let prevX = vGet(prev, prevK);
+    if(prevX < 0) prevX = 0;
+    let prevY = prevX - prevK;
+    if(prevY < 0) prevY = 0;
+    while(x>prevX && y>prevY){
+      ops.push({type:'eq', token:b[y-1]});
+      x--; y--;
+    }
+    if(cameFromDown){
+      if(y>0){ ops.push({type:'ins', token:b[y-1]}); y--; }
+    }else{
+      if(x>0){ ops.push({type:'del', token:a[x-1]}); x--; }
+    }
+  }
+  return ops.reverse();
+}
+function buildDiffOpsMyers(a,b){
+  const n=a.length, m=b.length;
+  const max=n+m;
+  // The corrected version should normally be close to the original.
+  // This exact Myers diff handles long-but-similar texts without the huge DP table that previously broke the card.
+  const maxD=Math.min(max, Math.max(800, Math.min(6500, Math.ceil(max*0.42))));
+  let v=new Map();
+  v.set(1,0);
+  const trace=[];
+  for(let d=0; d<=maxD; d++){
+    const current=new Map();
+    for(let k=-d; k<=d; k+=2){
+      let x;
+      if(k===-d || (k!==d && vGet(v,k-1) < vGet(v,k+1))) x=vGet(v,k+1);
+      else x=vGet(v,k-1)+1;
+      if(x<0) x=0;
+      let y=x-k;
+      while(x<n && y<m && sameDiffToken(a[x],b[y])){x++;y++;}
+      current.set(k,x);
+      if(x>=n && y>=m){
+        trace.push(current);
+        return backtrackMyers(trace,a,b);
+      }
+    }
+    trace.push(current);
+    v=current;
+  }
+  return null;
+}
+function findNextMatchingToken(tokens, start, needle, limit){
+  const max=Math.min(tokens.length,start+limit);
+  for(let k=start;k<max;k++){if(sameDiffToken(tokens[k],needle)) return k;}
+  return -1;
+}
+function buildDiffHTMLGreedy(a,b){
+  // Always returns a visible result. It is used only when the exact diff would be too expensive.
+  let i=0,j=0,out='';
+  const LOOKAHEAD=140;
+  while(i<a.length || j<b.length){
+    if(i<a.length && j<b.length && sameDiffToken(a[i],b[j])){out+=escapeHTML(b[j]); i++; j++; continue;}
+    if(i>=a.length){out+=appendDiffRun(b.slice(j),'ins'); break;}
+    if(j>=b.length){out+=appendDiffRun(a.slice(i),'del'); break;}
+    const nextInB=findNextMatchingToken(b,j+1,a[i],LOOKAHEAD);
+    const nextInA=findNextMatchingToken(a,i+1,b[j],LOOKAHEAD);
+    if(nextInB!==-1 && (nextInA===-1 || (nextInB-j)<=(nextInA-i))){
+      out+=appendDiffRun(b.slice(j,nextInB),'ins');
+      j=nextInB;
+      continue;
+    }
+    if(nextInA!==-1){
+      out+=appendDiffRun(a.slice(i,nextInA),'del');
+      i=nextInA;
+      continue;
+    }
+    out+=diffTokenHTML(a[i],'del')+diffTokenHTML(b[j],'ins');
+    i++; j++;
+  }
+  return out;
+}
+function buildDiffHTML(original, corrected){
+  const originalText=String(original||'');
+  const correctedText=String(corrected||'');
+  if(!originalText.trim() || !correctedText.trim()) return escapeHTML(correctedText);
+  const a=tokenizeForDiff(originalText), b=tokenizeForDiff(correctedText);
+  if(!a.length || !b.length) return escapeHTML(correctedText);
+  try{
+    const ops=buildDiffOpsMyers(a,b);
+    if(ops) return renderDiffOps(ops);
+    return buildDiffHTMLGreedy(a,b);
+  }catch(err){
+    console.error('Diff rendering failed:', err);
+    // Never leave Corrected empty. If diff fails for any reason, show the corrected text safely.
+    return escapeHTML(correctedText);
+  }
+}
+function storeOutputText(text){
+  const key='txt_'+(++outputTextCounter);
+  outputTextStore[key]=String(text||'');
+  return key;
 }
 function diffLegend(){const s=currentStrings();return `<div class="diff-legend"><span class="diff-chip"><span class="diff-swatch del"></span>${escapeHTML(s.removed||'Removed')}</span><span class="diff-chip"><span class="diff-swatch add"></span>${escapeHTML(s.added||'Added')}</span></div>`;}
 function versionCard(title, caption, text, key, cardClass, canSpeak=true, options={}){
   if(!text) return '';
   const textLang=selectedTextLanguage(); const lang=textLang.tts; const dir=selectedTextDirection(); const s=currentStrings();
   const isDiff=Boolean(options.diff);
-  const displayHtml=isDiff ? buildDiffHTML(lastSubmittedText,text) : escapeHTML(text);
+  let displayHtml='';
+  try{ displayHtml=isDiff ? buildDiffHTML(lastSubmittedText,text) : escapeHTML(text); }
+  catch(err){ console.error('Version card render failed:',err); displayHtml=escapeHTML(text); }
+  if(!String(displayHtml||'').trim()) displayHtml=escapeHTML(text);
   const textClass=isDiff ? 'version-text diff-view mt-4' : 'version-text mt-4';
   const statsHtml=`<div class="version-stat-row"><span class="chip">🔢 ${escapeHTML(formatStats(text))}</span></div>`;
   const legendHtml=isDiff ? diffLegend() : '';
-  return `<article class="output-card ${escapeAttr(cardClass)}"><div class="flex items-start justify-between gap-3 flex-wrap"><div><h4 class="font-black text-lg">${escapeHTML(title)}</h4><div class="version-caption">${escapeHTML(caption)}</div></div><span class="chip"><span class="dot"></span>${escapeHTML(key)}</span></div>${statsHtml}${legendHtml}<div class="${textClass}" dir="${dir}" lang="${escapeAttr(textLang.code)}">${displayHtml}</div><div class="version-actions"><button class="btn btn-secondary tiny-btn" data-copy="${escapeAttr(text)}" type="button">📋 ${escapeHTML(s.copy)}</button>${canSpeak?`<button class="btn btn-secondary tiny-btn" data-speak="${escapeAttr(text)}" data-tts="${escapeAttr(lang)}" type="button">🔊 ${escapeHTML(s.speak)}</button>`:''}</div></article>`;
+  const textKey=storeOutputText(text);
+  return `<article class="output-card ${escapeAttr(cardClass)}"><div class="flex items-start justify-between gap-3 flex-wrap"><div><h4 class="font-black text-lg">${escapeHTML(title)}</h4><div class="version-caption">${escapeHTML(caption)}</div></div><span class="chip"><span class="dot"></span>${escapeHTML(key)}</span></div>${statsHtml}${legendHtml}<div class="${textClass}" dir="${dir}" lang="${escapeAttr(textLang.code)}">${displayHtml}</div><div class="version-actions"><button class="btn btn-secondary tiny-btn" data-copy-key="${escapeAttr(textKey)}" type="button">📋 ${escapeHTML(s.copy)}</button>${canSpeak?`<button class="btn btn-secondary tiny-btn" data-speak-key="${escapeAttr(textKey)}" data-tts="${escapeAttr(lang)}" type="button">🔊 ${escapeHTML(s.speak)}</button>`:''}</div></article>`;
 }
 function renderResults(data){
+  outputTextStore = {}; outputTextCounter = 0;
   const s=currentStrings(); const v=data.versions||{}; const a=data.assessment||{}; const d=data.diagnosis||{}; const enh=Array.isArray(data.vocabulary_enhancements)?data.vocabulary_enhancements:[];
   const level=escapeHTML(a.cefr_level||'—');
   const targetHtml = v.target_level ? versionCard(s.target, s.targetCaption, v.target_level, targetLevel.value, 'target-card', true) : '';
@@ -1147,7 +1266,7 @@ copyAllBtn.addEventListener('click', copyAll);
 startOverBtn.addEventListener('click', resetApp);
 sampleBtn.addEventListener('click', insertSample);
 clearBtn.addEventListener('click', ()=>{textInput.value=''; updateCharCount(); syncTextDirection(); hideError(); textInput.focus();});
-resultsList.addEventListener('click', e=>{const copy=e.target.closest('[data-copy]'); if(copy){copyText(copy.dataset.copy,copy); return;} const sp=e.target.closest('[data-speak]'); if(sp){speakText(sp.dataset.speak, sp.dataset.tts||selectedTextLanguage().tts);}});
+resultsList.addEventListener('click', e=>{const copy=e.target.closest('[data-copy-key]'); if(copy){copyText(outputTextStore[copy.dataset.copyKey]||'',copy); return;} const sp=e.target.closest('[data-speak-key]'); if(sp){speakText(outputTextStore[sp.dataset.speakKey]||'', sp.dataset.tts||selectedTextLanguage().tts);}});
 window.addEventListener('scroll',()=>{toTopBtn.classList.toggle('show',window.scrollY>500);});
 toTopBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 fillUILangSwitcher(); initTheme(); fillSelect(textLanguage, LANGS, 'en'); fillSelect(goalType, GOALS, 'General Writing'); fillSelect(desiredTone, TONES, 'Neutral'); fillSelect(targetLevel, LEVELS, 'Auto'); fillSelect(feedbackLanguage, FEEDBACK_LANGS, 'ui'); setLanguage(currentLang);
