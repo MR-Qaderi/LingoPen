@@ -1,4 +1,3 @@
-# LingoPen
 # LingoPen (قلم‌یار) 🪶✨
 
 [![Live Demo](https://img.shields.io/badge/Live-Demo-success?style=for-the-badge&logo=vercel)](https://mr-qaderi.github.io/LingoPen/)
@@ -9,8 +8,8 @@
 Whether you are preparing for an international language exam, writing a professional business email, or just improving your daily conversations, LingoPen dynamically adapts to your specific needs.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/26cee25f-62ba-41d4-b4e5-f1836fb8dd77" alt="LingoPen Main Screen Persian" width="48.5%"/>
-  <img src="https://github.com/user-attachments/assets/27357a26-18e0-477e-9919-2405edd2a141" alt="LingoPen Input and Goals English" width="48.5%"/>
+  <img src="https://github.com/user-attachments/assets/26cee25f-62ba-41d4-b4e5-f1836fb8dd77" alt="LingoPen Main Screen Persian" height="400"/>
+  <img src="https://github.com/user-attachments/assets/27357a26-18e0-477e-9919-2405edd2a141" alt="LingoPen Input and Goals English" height="400"/>
 </p>
 
 ## 🚀 Key Features
@@ -26,14 +25,14 @@ Whether you are preparing for an international language exam, writing a professi
 
 **Bilingual Coaching Feedback (Adaptive UI)**
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/5a27993a-fbc8-4682-a487-764af93980dc" alt="Coaching English" width="48.5%"/>
-  <img src="https://github.com/user-attachments/assets/37d2064c-16f7-4f38-85db-241c47ad2ec7" alt="Coaching Persian" width="48.5%"/>
+  <img src="https://github.com/user-attachments/assets/5a27993a-fbc8-4682-a487-764af93980dc" alt="Coaching English" height="400"/>
+  <img src="https://github.com/user-attachments/assets/37d2064c-16f7-4f38-85db-241c47ad2ec7" alt="Coaching Persian" height="400"/>
 </p>
 
 **Rewrite Studio (Visual Diff) & Vocabulary Enhancements**
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/188a17c5-8099-47af-8cc6-6ec53a926394" alt="Suggested Versions and Diff" width="48.5%"/>
-  <img src="https://github.com/user-attachments/assets/341ed61d-92e3-4d7d-af14-cf8af6e2ce26" alt="Vocabulary Enhancements" width="48.5%"/>
+  <img src="https://github.com/user-attachments/assets/188a17c5-8099-47af-8cc6-6ec53a926394" alt="Suggested Versions and Diff" height="400"/>
+  <img src="https://github.com/user-attachments/assets/341ed61d-92e3-4d7d-af14-cf8af6e2ce26" alt="Vocabulary Enhancements" height="400"/>
 </p>
 
 **Comprehensive Word (.doc) Export**
