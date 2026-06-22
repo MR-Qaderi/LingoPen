@@ -884,7 +884,12 @@ function initTheme(){const saved = localStorage.getItem('lingopen-theme') || 'da
 function syncThemeTitle(){const dark=root.getAttribute('data-theme')==='dark'; themeToggle.title=dark?'Switch to light mode':'Switch to dark mode'; themeToggle.setAttribute('aria-label', themeToggle.title);}
 function toggleTheme(){const next=root.getAttribute('data-theme')==='dark'?'light':'dark'; root.setAttribute('data-theme',next); localStorage.setItem('lingopen-theme',next); syncThemeTitle();}
 function updateCharCount(){const locale=currentLang==='fa'?'fa-IR':'en-US'; charCount.textContent = `${textInput.value.length.toLocaleString(locale)} ${currentStrings().chars}`;}
-function syncTextDirection(){const dir=selectedTextDirection(); textInput.setAttribute('dir',dir); textInput.style.textAlign=dir==='rtl'?'right':'left';}
+function syncTextDirection(){
+  const hasText = textInput.value.trim().length > 0;
+  const dir = hasText ? selectedTextDirection() : uiLangInfo().dir;
+  textInput.setAttribute('dir',dir);
+  textInput.style.textAlign=dir==='rtl'?'right':'left';
+}
 function showError(msg){errorMsg.textContent=msg; errorMsg.classList.remove('hidden');}
 function hideError(){errorMsg.textContent=''; errorMsg.classList.add('hidden');}
 function setBusy(busy){processBtn.disabled=busy; processBtn.classList.toggle('is-loading',busy); processText.textContent=busy?currentStrings().processing:currentStrings().process; [textInput,textLanguage,goalType,desiredTone,targetLevel,feedbackLanguage,sampleBtn,clearBtn].forEach(el=>el.disabled=busy);}
@@ -1074,19 +1079,19 @@ function fallbackCopyText(text){const ta=document.createElement('textarea'); ta.
 async function copyText(text, btn){ if(!text) return; if(navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(text); else fallbackCopyText(text); if(btn){const old=btn.innerHTML; btn.innerHTML='✅ '+currentStrings().copied; setTimeout(()=>btn.innerHTML=old,1300);} }
 function speakText(text, langCode){ if(!text) return; speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); u.lang=langCode; speechSynthesis.speak(u);}
 function copyAll(){ if(!currentResult) return; const v=currentResult.versions||{}; const txt=[v.corrected&&`Corrected:\n${v.corrected}`,v.natural&&`Natural:\n${v.natural}`,v.target_level&&`Target Level:\n${v.target_level}`].filter(Boolean).join('\n\n---\n\n'); copyText(txt,copyAllBtn);}
-function resetApp(){textInput.value=''; updateCharCount(); hideError(); resultsView.classList.add('hidden'); resultsList.innerHTML=''; currentResult=null; speechSynthesis.cancel(); window.scrollTo({top:0,behavior:'smooth'});}
-function insertSample(){const sample='I am writing to ask about the meeting that we have tomorrow. I want to know if it is possible to change the time because I have another work at morning.'; textInput.value=sample; textLanguage.value='en'; goalType.value='Business Email'; desiredTone.value='Formal'; targetLevel.value='C1'; updateCharCount(); hideError();}
+function resetApp(){textInput.value=''; updateCharCount(); syncTextDirection(); hideError(); resultsView.classList.add('hidden'); resultsList.innerHTML=''; currentResult=null; speechSynthesis.cancel(); window.scrollTo({top:0,behavior:'smooth'});}
+function insertSample(){const sample='I am writing to ask about the meeting that we have tomorrow. I want to know if it is possible to change the time because I have another work at morning.'; textInput.value=sample; textLanguage.value='en'; goalType.value='Business Email'; desiredTone.value='Formal'; targetLevel.value='C1'; updateCharCount(); syncTextDirection(); hideError();}
 uiLangSwitcher.addEventListener('change', e=>setLanguage(e.target.value));
 themeToggle.addEventListener('click', toggleTheme);
 stopTtsBtn.addEventListener('click', ()=>speechSynthesis.cancel());
-textInput.addEventListener('input', updateCharCount);
+textInput.addEventListener('input', ()=>{updateCharCount(); syncTextDirection();});
 textLanguage.addEventListener('change', ()=>{syncTextDirection(); if(currentResult) renderResults(currentResult);});
 feedbackLanguage.addEventListener('change', ()=>{if(currentResult) renderResults(currentResult);});
 processBtn.addEventListener('click', handleProcess);
 copyAllBtn.addEventListener('click', copyAll);
 startOverBtn.addEventListener('click', resetApp);
 sampleBtn.addEventListener('click', insertSample);
-clearBtn.addEventListener('click', ()=>{textInput.value=''; updateCharCount(); hideError(); textInput.focus();});
+clearBtn.addEventListener('click', ()=>{textInput.value=''; updateCharCount(); syncTextDirection(); hideError(); textInput.focus();});
 resultsList.addEventListener('click', e=>{const copy=e.target.closest('[data-copy]'); if(copy){copyText(copy.dataset.copy,copy); return;} const sp=e.target.closest('[data-speak]'); if(sp){speakText(sp.dataset.speak, sp.dataset.tts||selectedTextLanguage().tts);}});
 window.addEventListener('scroll',()=>{toTopBtn.classList.toggle('show',window.scrollY>500);});
 toTopBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
