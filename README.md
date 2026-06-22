@@ -1,60 +1,113 @@
 # LingoPen (قلم‌یار) 🪶✨
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-success?style=for-the-badge&logo=vercel)](https://mr-qaderi.github.io/LingoPen/)
-[![UI Language](https://img.shields.io/badge/UI-Bilingual_(EN/FA)-blue?style=for-the-badge)](#)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-success?style=for-the-badge\&logo=github)](https://mr-qaderi.github.io/LingoPen/)
+[![UI Language](https://img.shields.io/badge/UI-Multilingual-blue?style=for-the-badge)](#)
+[![AI Writing Coach](https://img.shields.io/badge/AI-Writing_Coach-purple?style=for-the-badge)](#)
 
-**LingoPen** is an advanced, AI-powered multilingual writing coach. It goes beyond simple spell-checking by analyzing your text, preserving your authentic voice, and providing constructive, coaching-style feedback based on CEFR standards. 
+**LingoPen (قلم‌یار)** is an AI-powered multilingual writing coach designed to help language learners write more clearly, naturally, and confidently.
 
-Whether you are preparing for an international language exam, writing a professional business email, or just improving your daily conversations, LingoPen dynamically adapts to your specific needs.
+It goes beyond simple grammar checking by analyzing your text, preserving your authentic voice, explaining what can be improved, and providing coaching-style feedback aligned with CEFR language levels.
+
+LingoPen is useful for English practice, IELTS/TOEFL preparation, business emails, academic writing, everyday messages, and teacher-guided writing exercises.
 
 ## 🚀 Key Features
 
-*   🌍 **Truly Multilingual:** Master writing in **English, German, French, Spanish, Italian, Russian, Turkish, Chinese, Persian, and Arabic**. Choose to receive coaching feedback in your native language for better understanding, or in your target language for full immersion.
-*   🎯 **Context-Aware (Goals & Tones):** Tailor the AI's output by selecting specific goals *(IELTS/TOEFL Tasks, Goethe, DELF, Business Emails)* and desired tones *(Formal, Friendly, Persuasive, Direct, etc.)*.
-*   🔍 **Visual Text Diff:** Uses a custom Myers/LCS algorithm to visually highlight exact additions and deletions between your raw text and the corrected version.
-*   📊 **CEFR-Aligned Assessment:** Estimates your proficiency level (A1 to C2) and provides a structured diagnosis covering *Grammar, Vocabulary, and Flow*.
-*   📈 **Target Level Upgrades:** Select a target level (e.g., C1), and LingoPen will generate a model rewrite matching that exact proficiency.
-*   📄 **Export to Word:** Download a beautifully formatted Microsoft Word (`.doc`) report containing your original text, all AI feedback, visual diffs, and vocabulary enhancements to share with tutors or keep for your records.
+* 🌍 **Multilingual Writing Support**
+  Supports writing practice in English, German, French, Spanish, Italian, Russian, Turkish, Chinese, Persian, Arabic, and more, with proper RTL/LTR behavior.
+
+* 🧭 **Flexible Feedback Language**
+  Choose feedback in the interface language for easier understanding, or in the text language for deeper practice.
+
+* 🎯 **Writing Goals & Tone Control**
+  Select practical writing goals such as English homework, IELTS Task 1, IELTS Task 2, IELTS General Letter, TOEFL Writing, business email, academic text, or casual messages. Adjust the tone to formal, semi-formal, friendly, academic, professional, diplomatic, or concise.
+
+* 📊 **CEFR-Aligned Coaching**
+  Get an estimated writing level from A1 to C2, plus structured feedback on grammar, vocabulary, and flow.
+
+* ✍️ **Corrected, Natural, and Target-Level Versions**
+  Receive a corrected version close to your original text, a more natural rewrite, and an optional upgraded version based on your selected CEFR target level.
+
+* 🔍 **Visual Change Tracking**
+  See what changed in the corrected version with clear highlights for additions and removed parts.
+
+* 🧠 **Vocabulary Enhancements**
+  Discover stronger, more natural, and context-appropriate alternatives for selected words and phrases.
+
+* 🔊 **Text-to-Speech Support**
+  Listen to improved versions of your text to practice pronunciation, rhythm, and natural flow.
+
+* 📄 **Export to Word**
+  Download a formatted Word-compatible report including the original text, feedback, corrected version, visual changes, natural rewrite, and vocabulary suggestions.
+
+* 🔗 **Part of the LingoDeck Ecosystem**
+  LingoPen works alongside [LingoDeck](https://mr-qaderi.github.io/Vocabulary-Learner/), a vocabulary learning tool for turning words, phrases, and texts into structured learning cards.
 
 ---
 
-## 📸 Interface & Features in Action
+## 📸 Interface & Features
 
-### 1. Bilingual Adaptive UI (English & Persian)
-Configure your goal, tone, and desired levels easily. The UI fully adapts to your preferred language (LTR/RTL).
+### 1. Multilingual Adaptive Interface
+
+Configure text language, writing goal, tone, feedback language, and optional target level. The interface supports both RTL and LTR layouts.
 
 ![LingoPen Input and Goals English](https://github.com/user-attachments/assets/27357a26-18e0-477e-9919-2405edd2a141)
+
 ![LingoPen Main Screen Persian](https://github.com/user-attachments/assets/26cee25f-62ba-41d4-b4e5-f1836fb8dd77)
 
-### 2. Comprehensive Coaching Feedback
-Receive structured feedback on grammar, vocabulary, and flow in either your native language or target language.
+### 2. Coaching-Style Feedback
+
+Receive practical feedback on grammar, vocabulary, and flow, designed to help learners understand both the mistake and the improvement.
 
 ![Coaching English](https://github.com/user-attachments/assets/5a27993a-fbc8-4682-a487-764af93980dc)
+
 ![Coaching Persian](https://github.com/user-attachments/assets/37d2064c-16f7-4f38-85db-241c47ad2ec7)
 
 ### 3. Rewrite Studio & Visual Diff
-See exactly what changed with the built-in diff algorithm, and explore natural or upgraded versions of your text.
+
+Compare the corrected, natural, and target-level versions of your text, while seeing the main changes visually.
 
 ![Suggested Versions and Diff](https://github.com/user-attachments/assets/188a17c5-8099-47af-8cc6-6ec53a926394)
 
-### 4. Smart Vocabulary Enhancements
-Discover better, context-appropriate alternatives for the words you used.
+### 4. Vocabulary Enhancements
+
+Get better word choices and context-aware alternatives to improve your writing naturally.
 
 ![Vocabulary Enhancements](https://github.com/user-attachments/assets/341ed61d-92e3-4d7d-af14-cf8af6e2ce26)
 
-### 5. Microsoft Word (.doc) Export
-Export your entire learning session into a beautifully formatted document with just one click.
+### 5. Word-Compatible Export
+
+Export the full learning session into a clean, formatted document for later review or teacher feedback.
 
 ![Word Export Document](https://github.com/user-attachments/assets/cdbee163-6b31-4457-a533-804959e5de3c)
 
 ---
 
-## 🛠 Tech Stack
-
-Designed as a lightweight, lightning-fast Single-Page Application (SPA):
-*   **Frontend:** HTML5, Vanilla JavaScript, Tailwind CSS (via CDN).
-*   **UI/UX:** Custom Glassmorphism design, fully responsive, with seamless Dark/Light mode integration.
-*   **AI Engine:** Powered by LLM API (via a secure Cloudflare Worker proxy) utilizing strict JSON schemas for predictable rendering.
-
 ## 💡 How to Use
-No installation required. Simply visit the [Live Demo](https://mr-qaderi.github.io/LingoPen/), paste your text, configure your language/goal/tone, and click "Analyze".
+
+1. Open the [Live Demo](https://mr-qaderi.github.io/LingoPen/).
+2. Choose the language of your text.
+3. Select your writing goal, tone, feedback language, and optional target level.
+4. Paste or write your text.
+5. Click **Analyze & Improve**.
+6. Review the feedback, compare versions, listen to the improved text, or export the result to Word.
+
+---
+
+## 👥 Who Is It For?
+
+LingoPen is designed for:
+
+* English learners practicing writing
+* IELTS, TOEFL, and exam preparation students
+* Language teachers who want to recommend a self-practice tool
+* Professionals writing business emails
+* Students improving academic writing
+* Anyone who wants to write more naturally in another language
+
+---
+
+## 🌐 Live Demo
+
+Try LingoPen here:
+
+**https://mr-qaderi.github.io/LingoPen/**
